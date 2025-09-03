@@ -45,7 +45,7 @@ export default function ProviderPage() {
 
   return (
     <section className="mx-auto max-w-2xl space-y-6 p-6">
-      <h1 className="text-2xl font-bold">Apply with Provider · {cardName}</h1>
+      <h1 className="text-2xl font-bold">Some Provider · {cardName}</h1>
       <p className="text-gray-600 text-sm">
         Prefilled from previous step. Edit if needed, then continue.
       </p>

@@ -22,7 +22,7 @@ export default function CardItem({ card, href }: Props) {
           ) : null}
         </div>
         <Link href={href}>
-          <Button size="sm">Apply</Button>
+          <Button variant="secondary" size="sm">Apply</Button>
         </Link>
       </div>
     </li>

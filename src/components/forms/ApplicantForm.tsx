@@ -64,8 +64,8 @@ export default function ApplicantForm({ submitting, onSubmit, initial }: Props) 
               { value: 'unemployed', label: 'Unemployed' },
             ]}
           />
-          <div className="md:col-span-2">
-            <Button type="submit" disabled={submitting}>
+          <div className="md:col-span-2 flex justify-center">
+            <Button type="submit" disabled={submitting} variant="secondary">
               {submitting ? 'Checking…' : 'See eligible cards'}
             </Button>
           </div>
