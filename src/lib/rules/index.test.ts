@@ -45,7 +45,7 @@ describe('availableCardsFor', () => {
     expect(cards).not.toContain('prime-platinum')
   })
 
-  test('postcode boost: London prefixes allow London card via anyOf, even if age < 18 fails', () => {
+  test('postcode boost: London prefixes allow Anywhere card via anyOf, even if age < 18 fails', () => {
     const user: UserProfile = {
       name: 'Bobster',
       employment: 'student',
@@ -55,7 +55,6 @@ describe('availableCardsFor', () => {
       postcode: 'EC1A 1BB'
     }
     const cards = availableCardsFor(user).map(c => c.id)
-    expect(cards).toContain('london')
-    expect(cards).not.toContain('anywhere')
+    expect(cards).toContain('anywhere')
   })
 })

@@ -8,7 +8,7 @@ import { TextField, NumberField, SelectField } from './FormFields'
 type Props = {
   submitting?: boolean
   onSubmit: (values: UserProfile) => void | Promise<void>
-  initial?: Partial<UserProfile> // ← NEW
+  initial?: Partial<UserProfile>
 }
 
 const Schema = Yup.object({
@@ -25,14 +25,14 @@ const Schema = Yup.object({
 export default function ApplicantForm({ submitting, onSubmit, initial }: Props) {
   return (
     <Formik
-      enableReinitialize // ← allows presets to repopulate fields
+      enableReinitialize
       initialValues={{
         name: initial?.name ?? '',
         age: initial?.age ?? '',
         postcode: initial?.postcode ?? '',
         income: initial?.income ?? '',
         employment: initial?.employment ?? '',
-        creditScore: initial?.creditScore ?? '', // not shown but harmless if present
+        creditScore: initial?.creditScore ?? '',
       }}
       validationSchema={Schema}
       onSubmit={(vals) => {
