@@ -2,7 +2,6 @@ export type Employment = 'employed' | 'unemployed' | 'student' | 'self-employed'
 
 export type UserProfile = {
   name: string
-  email: string
   age?: number | null
   postcode?: string
   income?: number | null
