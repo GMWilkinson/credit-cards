@@ -13,7 +13,7 @@ export default function PresetPicker({ onPick }: Props) {
   const selectId = useId()
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="flex flex-wrap items-center gap-2 pb-4">
       <label className="text-sm" htmlFor={selectId}>
         Load mock user:
       </label>

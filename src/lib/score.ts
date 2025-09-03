@@ -4,7 +4,7 @@ export function computeScore(u: UserProfile): number {
   let score = 300
 
   const income = Math.max(0, Math.min(u.income ?? 0, 120_000))
-  score += Math.round((income / 120_000) * 300) // up to +300
+  score += Math.round((income / 120_000) * 300)
 
   const age = u.age ?? 0
   if (age >= 18 && age <= 25) score += 40

@@ -11,7 +11,7 @@ type Step = 'form' | 'results'
 export default function Page() {
   const [step, setStep] = useState<Step>('form')
   const [profile, setProfile] = useState<UserProfile | null>(null)
-  const [initial, setInitial] = useState<Partial<UserProfile> | undefined>(undefined) // ← NEW
+  const [initial, setInitial] = useState<Partial<UserProfile> | undefined>(undefined)
   const [score, setScore] = useState<number | null>(null)
   const [cards, setCards] = useState<Card[] | null>(null)
   const [loading, setLoading] = useState(false)
@@ -38,7 +38,6 @@ export default function Page() {
     setStep('form')
     setCards(null)
     setScore(null)
-    // keep last profile in 'initial' so the form is prefilled when going back
     if (profile) setInitial(profile)
   }
 

@@ -1,4 +1,3 @@
-// src/lib/data/cards.ts
 import type { Card } from '@/lib/types'
 
 export const CARDS: Card[] = [

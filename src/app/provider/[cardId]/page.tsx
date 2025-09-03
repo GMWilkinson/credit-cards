@@ -1,5 +1,4 @@
 'use client'
-
 import { useSearchParams, useParams, useRouter } from 'next/navigation'
 import Button from '@/components/ui/Button'
 import { useMemo, useState, useId } from 'react'
@@ -27,8 +26,6 @@ export default function ProviderPage() {
     () => params.cardId?.toString().replace(/-/g, ' '),
     [params.cardId]
   )
-
-  // Unique, stable ids for a11y
   const baseId = useId()
   const ids = {
     name: `${baseId}-name`,
@@ -42,7 +39,7 @@ export default function ProviderPage() {
   const submit = () => {
     console.log('Submitting to provider:', { cardId: params.cardId, ...form })
     alert(
-      `Pretend we applied for "${cardName}" with these details.\n(See console for payload.)`
+      `Let's pretend we applied for "${cardName}"`
     )
   }
 

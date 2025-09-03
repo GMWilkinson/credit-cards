@@ -1,4 +1,3 @@
-// src/lib/rules/index.ts
 import type { Card, FilterAtom, FilterNode, UserProfile } from '@/lib/types'
 import { CARDS } from '@/lib/data/cards'
 
