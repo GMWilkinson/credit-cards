@@ -1,16 +1,18 @@
+// src/components/cards/CardTable.tsx
 'use client'
 
-import type { Card } from '@/lib/types'
+import type { Card, UserProfile } from '@/lib/types'
 import CardItem from './CardItem'
 import Button from '@/components/ui/Button'
+import { buildProviderHref } from '@/lib/providerLink'
 
 type Props = {
   cards: Card[]
-  onSelect: (id: string) => void
+  profile: UserProfile
   onBack: () => void
 }
 
-export default function CardTable({ cards, onSelect, onBack }: Props) {
+export default function CardTable({ cards, profile, onBack }: Props) {
   if (!cards.length) {
     return (
       <div className="rounded-md border p-4">
@@ -27,7 +29,7 @@ export default function CardTable({ cards, onSelect, onBack }: Props) {
     <>
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {cards.map((card) => (
-          <CardItem key={card.id} card={card} onSelect={onSelect} />
+          <CardItem key={card.id} card={card} href={buildProviderHref(card.id, profile)} />
         ))}
       </ul>
 

@@ -19,7 +19,6 @@ const Schema = Yup.object({
   employment: Yup.string()
     .oneOf(['employed', 'unemployed', 'student', 'self-employed', 'retired'])
     .required('Required'),
-  creditScore: Yup.number().transform((v, o) => (o === '' ? undefined : v)).min(0),
 })
 
 export default function ApplicantForm({ submitting, onSubmit }: Props) {
@@ -31,7 +30,6 @@ export default function ApplicantForm({ submitting, onSubmit }: Props) {
         postcode: '',
         income: '',
         employment: '',
-        creditScore: '',
       }}
       validationSchema={Schema}
       onSubmit={(vals) => {
@@ -41,7 +39,6 @@ export default function ApplicantForm({ submitting, onSubmit }: Props) {
           postcode: vals.postcode || undefined,
           income: vals.income === '' ? null : Number(vals.income),
           employment: vals.employment as UserProfile['employment'],
-          creditScore: vals.creditScore === '' ? null : Number(vals.creditScore),
         }
         onSubmit(payload)
       }}
@@ -63,9 +60,6 @@ export default function ApplicantForm({ submitting, onSubmit }: Props) {
               { value: 'unemployed', label: 'Unemployed' },
             ]}
           />
-          <div className="md:col-span-2">
-            <NumberField name="creditScore" label="Credit score" />
-          </div>
 
           <div className="md:col-span-2">
             <Button type="submit" disabled={submitting}>

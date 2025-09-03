@@ -1,10 +1,10 @@
 import { availableCardsFor } from './index'
 import type { UserProfile } from '@/lib/types'
 
-describe('availableCardsFor (data-driven)', () => {
+describe('availableCardsFor', () => {
   test('student, age 20, low income → gets Student Life + Anywhere', () => {
     const user: UserProfile = {
-      name: 'Stu',
+      name: 'Bob',
       employment: 'student',
       age: 20,
       income: 0,
@@ -20,7 +20,7 @@ describe('availableCardsFor (data-driven)', () => {
 
   test('employed, score 720, income 50k → prime + barclay + anywhere', () => {
     const user: UserProfile = {
-      name: 'Pro',
+      name: 'Bobby',
       employment: 'employed',
       age: 35,
       income: 50000,
@@ -34,7 +34,7 @@ describe('availableCardsFor (data-driven)', () => {
 
   test('unemployed, high score/income → blocks prime-platinum via notEmploymentIn', () => {
     const user: UserProfile = {
-      name: 'U',
+      name: 'Robert',
       employment: 'unemployed',
       age: 40,
       income: 100000,
@@ -45,9 +45,9 @@ describe('availableCardsFor (data-driven)', () => {
     expect(cards).not.toContain('prime-platinum')
   })
 
-  test('postcode boost: London prefixes allow Anywhere via anyOf, even if age < 18 fails', () => {
+  test('postcode boost: London prefixes allow London card via anyOf, even if age < 18 fails', () => {
     const user: UserProfile = {
-      name: 'Kid',
+      name: 'Bobster',
       employment: 'student',
       age: 16,
       income: 0,
@@ -55,6 +55,7 @@ describe('availableCardsFor (data-driven)', () => {
       postcode: 'EC1A 1BB'
     }
     const cards = availableCardsFor(user).map(c => c.id)
-    expect(cards).toContain('anywhere')
+    expect(cards).toContain('london')
+    expect(cards).not.toContain('anywhere')
   })
 })

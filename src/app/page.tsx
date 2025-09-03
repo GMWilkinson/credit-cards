@@ -1,4 +1,4 @@
-// src/app/page.tsx
+// src/app/page.tsx (key changes only)
 'use client'
 
 import { useState } from 'react'
@@ -11,9 +11,9 @@ type Step = 'form' | 'results'
 export default function Page() {
   const [step, setStep] = useState<Step>('form')
   const [profile, setProfile] = useState<UserProfile | null>(null)
+  const [score, setScore] = useState<number | null>(null)
   const [cards, setCards] = useState<Card[] | null>(null)
-  const [selectedIds, setSelectedIds] = useState<string[]>([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
   const onSubmit = async (values: UserProfile) => {
@@ -26,9 +26,10 @@ export default function Page() {
       })
       const data = await res.json()
       if (!res.ok || !data.ok) throw new Error(data.error || 'Failed to fetch cards')
+
       setProfile(values)
+      setScore(data.score as number)
       setCards(data.cards as Card[])
-      setSelectedIds([])
       setStep('results')
     } catch (e: any) {
       setError(e.message || 'Something went wrong')
@@ -37,14 +38,10 @@ export default function Page() {
     }
   }
 
-  const onCardSelect = (id: string) => {
-    console.log('Card selected:', id)
-  }
-
   const backToForm = () => {
     setStep('form')
-    setSelectedIds([])
     setCards(null)
+    setScore(null)
   }
 
   return (
@@ -58,16 +55,14 @@ export default function Page() {
         </>
       )}
 
-      {step === 'results' && cards && (
+      {step === 'results' && cards && profile && (
         <>
-          {profile && (
-            <p className="text-sm text-gray-600">
-              For {profile.name} · {profile.employment} · score {profile.creditScore ?? '—'}
-            </p>
-          )}
+          <p className="text-sm text-gray-600">
+            For {profile.name} · {profile.employment} · score {score ?? '—'}
+          </p>
           <CardTable
             cards={cards}
-            onSelect={onCardSelect}
+            profile={{ ...profile, creditScore: score ?? undefined }}
             onBack={backToForm}
           />
         </>

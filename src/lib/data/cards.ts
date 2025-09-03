@@ -9,10 +9,9 @@ export const CARDS: Card[] = [
     creditLimit: 1200,
     features: ['No annual fee'],
     eligibility: {
-      type: 'anyOf',
+      type: 'allOf',
       filters: [
         { type: 'ageBetween', min: 18, max: 120 },
-        { type: 'postcodePrefixAny', values: ['EC', 'W', 'SW'] },
       ],
     },
   },
@@ -66,7 +65,7 @@ export const CARDS: Card[] = [
     creditLimit: 9200,
     features: ['No annual fee'],
     eligibility: {
-      type: 'allOf',
+      type: 'anyOf',
       filters: [
         { type: 'ageBetween', min: 18, max: 120 },
         { type: 'postcodePrefixAny', values: ['EC', 'E', 'W', 'WC', 'SW', 'SE', 'N', 'NW', 'NE'] },
