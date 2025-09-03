@@ -1,8 +1,19 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Crazy Cards
+
+It simulates a credit-card comparison site:  
+users enter their details, the app checks eligibility rules, and shows matching cards.  
+Cards can be sorted, filtered by category, and “applied for” via a mock provider page.
 
 ## Getting Started
 
-First, run the development server:
+```bash
+npm install
+# or
+yarn
+# or
+pnpm install
+```
+
 
 ```bash
 npm run dev
@@ -10,27 +21,86 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Testing
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Unit
+```bash
+npm run test
+# or
+yarn test
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### E2E
+```bash
+npm run e2e:ci
+# or
+yarn e2e:ci
+```
 
-## Learn More
+## What it does
+Form step: Users (or mock presets) enter profile info — name, age, postcode, employment, income.
 
-To learn more about Next.js, take a look at the following resources:
+Eligibility rules: Cards define their own filters (minScore, employmentIn, ageBetween, etc.).
+Adding a new card = just add JSON config (no new code).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Results step: Shows all eligible cards.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Sort by APR, credit limit, or name.
 
-## Deploy on Vercel
+Filter by categories (cashback, travel, balance-transfer, etc).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Always an “All cards” tab to reset filters.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Provider step: Clicking “Check eligibility” navigates to /provider/[cardId] with query params.
+The form is prefilled; user can edit and “Apply now” (mocked).
+
+## Bells and whistles
+
+Mock users: Choose from preset profiles to autofill the form for quick testing.
+
+Persisted state: Uses React Query’s cache (no backend DB required).
+
+Category tabs: Multi-select pill controls, synced with ?categories= URL param.
+
+Sort controls: Dropdown + asc/desc toggle.
+
+E2E & unit tests:
+
+RTL unit tests cover eligibility filters & form autofill.
+
+Cypress E2E runs a full happy path (preset → submit → sort/filter → provider).
+
+A11y: Labels correctly wired via htmlFor/id, accessible roles on buttons/links.
+
+Provider page: Demonstrates pre-filling via URL query params (like TotallyMoney & others do).
+
+Type-safe: All props and mock data typed with TypeScript.
+
+## Tech stack
+
+Next.js – App Router
+
+React
+
+Tailwind CSS v4 alpha
+
+Formik – form handling
+
+Yup – form validation
+
+Jest + React Testing Library
+
+Cypress + Testing Library Cypress
+
+## Next steps (if this were production)
+
+Replace mock API with real backend for credit score lookups.
+
+Add auth (login) so results persist between sessions.
+
+Improve UI polish (branding, responsive header, hero section).
+
+Accessibility audit (ARIA roles, tab order, etc).
+
