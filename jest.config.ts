@@ -1,11 +1,10 @@
 import nextJest from 'next/jest'
 const createJestConfig = nextJest({ dir: './' })
 
-const config = {
+export default createJestConfig({
   testEnvironment: 'jest-environment-jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
-  },
-}
-export default createJestConfig(config)
+  moduleNameMapper: { '^@/(.*)$': '<rootDir>/src/$1' },
+  testPathIgnorePatterns: ['<rootDir>/cypress/'],
+  modulePathIgnorePatterns: ['<rootDir>/cypress/']
+})

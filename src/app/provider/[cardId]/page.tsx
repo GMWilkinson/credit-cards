@@ -2,7 +2,7 @@
 
 import { useSearchParams, useParams, useRouter } from 'next/navigation'
 import Button from '@/components/ui/Button'
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useId } from 'react'
 
 export default function ProviderPage() {
   const params = useParams<{ cardId: string }>()
@@ -18,14 +18,32 @@ export default function ProviderPage() {
     age: sp.get('age') ?? '',
   }))
 
-  const onChange = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
-    setForm((f) => ({ ...f, [k]: e.target.value }))
+  const onChange =
+    (k: keyof typeof form) =>
+      (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+        setForm((f) => ({ ...f, [k]: e.target.value }))
 
-  const cardName = useMemo(() => params.cardId?.toString().replace(/-/g, ' '), [params.cardId])
+  const cardName = useMemo(
+    () => params.cardId?.toString().replace(/-/g, ' '),
+    [params.cardId]
+  )
+
+  // Unique, stable ids for a11y
+  const baseId = useId()
+  const ids = {
+    name: `${baseId}-name`,
+    postcode: `${baseId}-postcode`,
+    employment: `${baseId}-employment`,
+    income: `${baseId}-income`,
+    score: `${baseId}-score`,
+    age: `${baseId}-age`,
+  }
 
   const submit = () => {
     console.log('Submitting to provider:', { cardId: params.cardId, ...form })
-    alert(`Pretend we applied for "${cardName}" with these details.\n(See console for payload.)`)
+    alert(
+      `Pretend we applied for "${cardName}" with these details.\n(See console for payload.)`
+    )
   }
 
   return (
@@ -37,34 +55,86 @@ export default function ProviderPage() {
 
       <div className="grid grid-cols-1 gap-4">
         <div>
-          <label className="mb-1 block text-sm font-medium">Name</label>
-          <input className="w-full rounded-md border p-2" value={form.name} onChange={onChange('name')} />
+          <label htmlFor={ids.name} className="mb-1 block text-sm font-medium">
+            Name
+          </label>
+          <input
+            id={ids.name}
+            className="w-full rounded-md border p-2"
+            value={form.name}
+            onChange={onChange('name')}
+          />
         </div>
+
         <div>
-          <label className="mb-1 block text-sm font-medium">Postcode</label>
-          <input className="w-full rounded-md border p-2" value={form.postcode} onChange={onChange('postcode')} />
+          <label htmlFor={ids.postcode} className="mb-1 block text-sm font-medium">
+            Postcode
+          </label>
+          <input
+            id={ids.postcode}
+            className="w-full rounded-md border p-2"
+            value={form.postcode}
+            onChange={onChange('postcode')}
+          />
         </div>
+
         <div>
-          <label className="mb-1 block text-sm font-medium">Employment</label>
-          <input className="w-full rounded-md border p-2" value={form.employment} onChange={onChange('employment')} />
+          <label htmlFor={ids.employment} className="mb-1 block text-sm font-medium">
+            Employment
+          </label>
+          <input
+            id={ids.employment}
+            className="w-full rounded-md border p-2"
+            value={form.employment}
+            onChange={onChange('employment')}
+          />
         </div>
+
         <div>
-          <label className="mb-1 block text-sm font-medium">Income</label>
-          <input type="number" className="w-full rounded-md border p-2" value={form.income} onChange={onChange('income')} />
+          <label htmlFor={ids.income} className="mb-1 block text-sm font-medium">
+            Income
+          </label>
+          <input
+            id={ids.income}
+            type="number"
+            className="w-full rounded-md border p-2"
+            value={form.income}
+            onChange={onChange('income')}
+          />
         </div>
+
         <div>
-          <label className="mb-1 block text-sm font-medium">Credit score</label>
-          <input type="number" className="w-full rounded-md border p-2" value={form.score} onChange={onChange('score')} />
+          <label htmlFor={ids.score} className="mb-1 block text-sm font-medium">
+            Credit score
+          </label>
+          <input
+            id={ids.score}
+            type="number"
+            className="w-full rounded-md border p-2"
+            value={form.score}
+            onChange={onChange('score')}
+          />
         </div>
+
         <div>
-          <label className="mb-1 block text-sm font-medium">Age</label>
-          <input type="number" className="w-full rounded-md border p-2" value={form.age} onChange={onChange('age')} />
+          <label htmlFor={ids.age} className="mb-1 block text-sm font-medium">
+            Age
+          </label>
+          <input
+            id={ids.age}
+            type="number"
+            className="w-full rounded-md border p-2"
+            value={form.age}
+            onChange={onChange('age')}
+          />
         </div>
       </div>
 
       <div className="flex gap-3">
         <Button onClick={submit}>Apply now</Button>
-        <Button variant="secondary" onClick={() => router.push('/')}>Back</Button>
+        <Button variant="secondary" onClick={() => router.push('/')}>
+          Back
+        </Button>
       </div>
     </section>
   )

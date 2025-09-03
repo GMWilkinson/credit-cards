@@ -1,0 +1,33 @@
+{
+  "ok": true,
+  "score": 720,
+  "cards": [
+    {
+      "id": "prime-platinum",
+      "name": "Prime Platinum",
+      "apr": 14.9,
+      "creditLimit": 6000,
+      "features": ["Travel insurance", "Airport lounge passes"],
+      "categories": ["premium", "travel", "low-apr"],
+      "eligibility": { "type": "allOf", "filters": [] }
+    },
+    {
+      "id": "jetset-rewards",
+      "name": "JetSet Rewards",
+      "apr": 24.9,
+      "creditLimit": 3500,
+      "features": ["Air miles", "0% FX fees"],
+      "categories": ["travel", "rewards"],
+      "eligibility": { "type": "allOf", "filters": [] }
+    },
+    {
+      "id": "anywhere",
+      "name": "Anywhere",
+      "apr": 29.9,
+      "creditLimit": 1200,
+      "features": ["No annual fee"],
+      "categories": ["everyday"],
+      "eligibility": { "type": "anyOf", "filters": [] }
+    }
+  ]
+}
