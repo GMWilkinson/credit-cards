@@ -4,7 +4,6 @@ import ApplicantForm from '@/components/forms/ApplicantForm'
 import PresetPicker from '@/components/forms/PresetPicker'
 import CardTable from '@/components/cards/CardTable'
 import type { Card, UserProfile } from '@/lib/types'
-import Banner from '@/components/ui/Banner'
 
 type Step = 'form' | 'results'
 
@@ -43,7 +42,6 @@ export default function Page() {
 
   return (
     <section className="space-y-6">
-      <Banner />
 
       <div className="p-6">
 
@@ -58,7 +56,7 @@ export default function Page() {
 
         {step === 'results' && cards && profile && (
           <>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 py-2">
               For {profile.name} · {profile.employment} · score {score ?? '—'}
             </p>
             <CardTable

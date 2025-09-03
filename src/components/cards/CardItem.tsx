@@ -12,9 +12,9 @@ export default function CardItem({ card, href }: Props) {
       <div className="flex items-start justify-between">
         <div>
           <h3 className="text-lg font-semibold">{card.name}</h3>
-          <p className="text-sm text-gray-600">APR {card.apr}% · Limit £{card.creditLimit}</p>
+          <p className="text-sm text-gray-300">APR {card.apr}% · Limit £{card.creditLimit}</p>
           {card.features?.length ? (
-            <ul className="mt-2 list-disc pl-5 text-sm text-gray-700">
+            <ul className="mt-2 list-disc pl-5 text-sm text-gray-300">
               {card.features.map((f) => (
                 <li key={f}>{f}</li>
               ))}
@@ -22,7 +22,7 @@ export default function CardItem({ card, href }: Props) {
           ) : null}
         </div>
         <Link href={href}>
-          <Button size="sm">Select</Button>
+          <Button size="sm">Apply</Button>
         </Link>
       </div>
     </li>

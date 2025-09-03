@@ -63,7 +63,6 @@ export default function CardTable({ cards, profile, onBack }: Props) {
         onChange={setSelectedCats}
       />
 
-      {/* Sort controls */}
       <div className="mb-4 flex items-center justify-between">
         <label className="text-sm">
           Sort by:{' '}
