@@ -1,4 +1,3 @@
-// src/lib/types.ts
 export type Employment = 'employed' | 'unemployed' | 'student' | 'self-employed' | 'retired'
 
 export type UserProfile = {
@@ -17,4 +16,9 @@ export type Card = {
   apr: number
   creditLimit: number
   features?: string[]
+}
+
+export type RuleContext = {
+  user: UserProfile
+  card: Card
 }
