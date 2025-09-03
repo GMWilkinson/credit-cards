@@ -1,23 +1,48 @@
-import { CARDS } from '../data/cards'
-import type { Card, UserProfile, RuleContext } from '../types'
-import { hasMinScore, hasMinIncome, employmentIs, postcodeStartsWith, ageBetween } from './predicates'
+// src/lib/rules/index.ts
+import type { Card, FilterAtom, FilterNode, UserProfile } from '@/lib/types'
+import { CARDS } from '@/lib/data/cards'
 
-const RULES = [
-  (ctx: RuleContext) => ctx.card.id === 'anywhere' && ageBetween(18, 120)(ctx),
-  (ctx: RuleContext) => ctx.card.id === 'anywhere' && postcodeStartsWith(['EC', 'W', 'SW'])(ctx),
+function normPostcode(pc?: string) {
+  return (pc || '').toUpperCase().replace(/\s+/g, '')
+}
 
-  (ctx: RuleContext) => ctx.card.id === 'barclay-plus' && hasMinScore(600)(ctx) && hasMinIncome(20000)(ctx),
+function evalAtom(user: UserProfile, atom: FilterAtom): boolean {
+  const score = user.creditScore ?? -Infinity
+  const income = user.income ?? 0
+  const age = user.age ?? 0
+  const pc = normPostcode(user.postcode)
 
-  (ctx: RuleContext) => ctx.card.id === 'student-life' && employmentIs('student')(ctx) && ageBetween(18, 30)(ctx),
+  switch (atom.type) {
+    case 'minScore':
+      return score >= atom.value
+    case 'minIncome':
+      return income >= atom.value
+    case 'employmentIn':
+      return atom.values.includes(user.employment as any)
+    case 'notEmploymentIn':
+      return !atom.values.includes(user.employment as any)
+    case 'ageBetween':
+      return age >= atom.min && age <= atom.max
+    case 'postcodePrefixAny':
+      return atom.values.some((p) => pc.startsWith(p.toUpperCase()))
+    default:
+      return false
+  }
+}
 
-  (ctx: RuleContext) =>
-    ctx.card.id === 'prime-platinum' &&
-    hasMinScore(700)(ctx) &&
-    hasMinIncome(40000)(ctx) &&
-    !employmentIs('unemployed')(ctx),
-]
+function evalNode(user: UserProfile, node: FilterNode): boolean {
+  switch (node.type) {
+    case 'allOf':
+      return node.filters.every((f) => evalNode(user, f))
+    case 'anyOf':
+      return node.filters.some((f) => evalNode(user, f))
+    case 'not':
+      return !evalNode(user, node.filter)
+    default:
+      return evalAtom(user, node as FilterAtom)
+  }
+}
 
 export function availableCardsFor(user: UserProfile): Card[] {
-  const ctx = (card: Card): RuleContext => ({ user, card })
-  return CARDS.filter((card) => RULES.some((r) => r(ctx(card))))
+  return CARDS.filter((card) => evalNode(user, card.eligibility))
 }

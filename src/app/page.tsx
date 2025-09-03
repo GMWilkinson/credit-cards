@@ -1,8 +1,9 @@
+// src/app/page.tsx
 'use client'
 
 import { useState } from 'react'
 import ApplicantForm from '@/components/forms/ApplicantForm'
-// import CardTable from '@/components/cards/CardTable'
+import CardTable from '@/components/cards/CardTable'
 import type { Card, UserProfile } from '@/lib/types'
 
 type Step = 'form' | 'results'
@@ -36,6 +37,10 @@ export default function Page() {
     }
   }
 
+  const onCardSelect = (id: string) => {
+    console.log('Card selected:', id)
+  }
+
   const backToForm = () => {
     setStep('form')
     setSelectedIds([])
@@ -60,7 +65,11 @@ export default function Page() {
               For {profile.name} · {profile.employment} · score {profile.creditScore ?? '—'}
             </p>
           )}
-
+          <CardTable
+            cards={cards}
+            onSelect={onCardSelect}
+            onBack={backToForm}
+          />
         </>
       )}
     </section>

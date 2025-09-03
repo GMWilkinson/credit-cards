@@ -13,7 +13,6 @@ type Props = {
 
 const Schema = Yup.object({
   name: Yup.string().required('Required'),
-  email: Yup.string().email('Invalid').required('Required'),
   age: Yup.number().transform((v, o) => (o === '' ? undefined : v)).min(18, '18+'),
   postcode: Yup.string().max(10),
   income: Yup.number().transform((v, o) => (o === '' ? undefined : v)).min(0),
@@ -28,7 +27,6 @@ export default function ApplicantForm({ submitting, onSubmit }: Props) {
     <Formik
       initialValues={{
         name: '',
-        email: '',
         age: '',
         postcode: '',
         income: '',
@@ -51,7 +49,6 @@ export default function ApplicantForm({ submitting, onSubmit }: Props) {
       {() => (
         <Form className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <TextField name="name" label="Name" />
-          <TextField name="email" label="Email" />
           <NumberField name="age" label="Age" />
           <TextField name="postcode" label="Postcode" />
           <NumberField name="income" label="Annual Income (£)" />
