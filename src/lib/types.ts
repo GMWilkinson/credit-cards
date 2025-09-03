@@ -30,6 +30,7 @@ export type Card = {
   creditLimit: number
   features?: string[]
   eligibility: FilterNode
+  categories: string[]
 }
 
 
