@@ -1,5 +1,4 @@
 'use client'
-
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import Button from '@/components/ui/Button'
@@ -9,6 +8,7 @@ import { TextField, NumberField, SelectField } from './FormFields'
 type Props = {
   submitting?: boolean
   onSubmit: (values: UserProfile) => void | Promise<void>
+  initial?: Partial<UserProfile> // ← NEW
 }
 
 const Schema = Yup.object({
@@ -19,17 +19,20 @@ const Schema = Yup.object({
   employment: Yup.string()
     .oneOf(['employed', 'unemployed', 'student', 'self-employed', 'retired'])
     .required('Required'),
+  creditScore: Yup.number().transform((v, o) => (o === '' ? undefined : v)).min(0),
 })
 
-export default function ApplicantForm({ submitting, onSubmit }: Props) {
+export default function ApplicantForm({ submitting, onSubmit, initial }: Props) {
   return (
     <Formik
+      enableReinitialize // ← allows presets to repopulate fields
       initialValues={{
-        name: '',
-        age: '',
-        postcode: '',
-        income: '',
-        employment: '',
+        name: initial?.name ?? '',
+        age: initial?.age ?? '',
+        postcode: initial?.postcode ?? '',
+        income: initial?.income ?? '',
+        employment: initial?.employment ?? '',
+        creditScore: initial?.creditScore ?? '', // not shown but harmless if present
       }}
       validationSchema={Schema}
       onSubmit={(vals) => {
@@ -39,12 +42,13 @@ export default function ApplicantForm({ submitting, onSubmit }: Props) {
           postcode: vals.postcode || undefined,
           income: vals.income === '' ? null : Number(vals.income),
           employment: vals.employment as UserProfile['employment'],
+          creditScore: vals.creditScore === '' ? null : Number(vals.creditScore),
         }
         onSubmit(payload)
       }}
     >
       {() => (
-        <Form className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <Form className="grid grid-cols-1 gap-5 md:grid-cols-2">
           <TextField name="name" label="Name" />
           <NumberField name="age" label="Age" />
           <TextField name="postcode" label="Postcode" />
@@ -60,7 +64,6 @@ export default function ApplicantForm({ submitting, onSubmit }: Props) {
               { value: 'unemployed', label: 'Unemployed' },
             ]}
           />
-
           <div className="md:col-span-2">
             <Button type="submit" disabled={submitting}>
               {submitting ? 'Checking…' : 'See eligible cards'}
