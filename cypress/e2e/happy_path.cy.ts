@@ -32,7 +32,7 @@ describe('Happy path: preset → submit → results → provider', () => {
 
     // Follow provider link from first card
     cy.get('ul li').first().within(() => {
-      cy.findByRole('link', { name: /Select/i }).click()
+      cy.findByRole('link', { name: /Apply/i }).click()
     })
 
     // Land on provider page with params
