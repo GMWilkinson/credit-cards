@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  turbopack: {
+    root: __dirname, // explicitly set root of this workspace
+  },
 };
 
 export default nextConfig;
